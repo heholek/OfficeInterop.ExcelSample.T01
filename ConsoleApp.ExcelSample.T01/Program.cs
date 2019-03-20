@@ -9,63 +9,44 @@ namespace ConsoleApp.ExcelSample.T01
     {
         static void Main(string[] args)
         {
-            string excelFilePath = Path.GetTempPath() + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "-csharp-Excel.xls";
-            string logFile = Path.GetTempPath() + "ConsoleApp.ExcelSample.T01.log";
-            string message = string.Empty;
+            string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string excelFilePath = Path.Combine(Path.GetTempPath(), timeStamp + "-csharp-Excel.xlsx");
+            string logFile = Path.Combine(Path.GetTempPath(), timeStamp + "-log.txt");
 
+            LogToFile(logFile, "File path: " + logFile);
+
+            CreateExcelFile(excelFilePath, logFile);
+
+            LogToFile(logFile, "Finished");
+        }
+
+        private static void CreateExcelFile(string excelFilePath, string logFile)
+        {
             try
             {
-                LogToFile(logFile, "Try to create Excel instance");
                 Excel.Application xlApp = new Excel.Application();
-                LogToFile(logFile, "Done to create Excel instance");
+                Excel.Workbook xlWorkBook = null;
+                Excel.Worksheet xlWorkSheet = null;
 
-                if (xlApp == null)
+                xlWorkBook = xlApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+                xlWorkSheet = xlWorkBook.Worksheets[1];
+
+                for (int i = 1; i < 10; i++)
                 {
-                    message = "Excel is not properly installed!!";
-                    Console.WriteLine(message);
-                    LogToFile(logFile, message);
-
-                    return;
+                    for (int j = 1; j < 11; j++)
+                    {
+                        xlWorkSheet.Cells[i, j] =  i + "---" + j;
+                    }
                 }
 
-                Excel.Workbook xlWorkBook;
-                Excel.Worksheet xlWorkSheet;
-                object misValue = System.Reflection.Missing.Value;
+                xlWorkBook.SaveCopyAs(excelFilePath);
 
-                xlWorkBook = xlApp.Workbooks.Add(misValue);
-                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                xlWorkSheet.Cells[1, 1] = "ID";
-                xlWorkSheet.Cells[1, 2] = "Name";
-                xlWorkSheet.Cells[1, 3] = "Address";
-                xlWorkSheet.Cells[2, 1] = "abcdefghigklmn";
-                xlWorkSheet.Cells[2, 2] = "One";
-                xlWorkSheet.Cells[2, 3] = "Three";
-                xlWorkSheet.Cells[3, 1] = "2";
-                xlWorkSheet.Cells[3, 2] = "abcdefghigklmn";
-                xlWorkSheet.Cells[3, 3] = "cccccc";
-
-                xlWorkSheet.Columns.AutoFit();
-
-                LogToFile(logFile, "Try to save Excel file");
-                xlWorkBook.SaveAs(excelFilePath, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                LogToFile(logFile, "Done to save Excel file");
-
-                LogToFile(logFile, "Try to close Excel object");
-                xlWorkBook.Close(true, misValue, misValue);
-                LogToFile(logFile, "Done to close Excel object");
-
-                LogToFile(logFile, "Try to quit Excel application");
+                xlWorkBook.Close();
                 xlApp.Quit();
-                LogToFile(logFile, "Done to quit Excel application");
 
                 Marshal.ReleaseComObject(xlWorkSheet);
                 Marshal.ReleaseComObject(xlWorkBook);
                 Marshal.ReleaseComObject(xlApp);
-
-                message = "Excel file created , you can find the file " + excelFilePath;
-                Console.WriteLine(message);
-                LogToFile(logFile, message);
             }
             catch (Exception ex)
             {
@@ -77,7 +58,7 @@ namespace ConsoleApp.ExcelSample.T01
         {
             using (StreamWriter file = File.AppendText(logFile))
             {
-                file.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:sss") + "   " + message);
+                file.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:sss") + "    " + message);
             }
         }
 
