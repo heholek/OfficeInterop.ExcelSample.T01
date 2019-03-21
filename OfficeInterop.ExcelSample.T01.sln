@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.ExcelSample.T01", "ConsoleApp.ExcelSample.T01\ConsoleApp.ExcelSample.T01.csproj", "{24D6AF29-B58B-4B1B-8613-9536C5E344A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeInterop.ExcelSample.T01", "OfficeInterop.ExcelSample.T01\OfficeInterop.ExcelSample.T01.csproj", "{24D6AF29-B58B-4B1B-8613-9536C5E344A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {740AB953-4C22-430F-AE8C-A5D9783EF13C}
+		SolutionGuid = {10093CEB-269B-467A-820E-54FC30B0DFDF}
 	EndGlobalSection
 EndGlobal
